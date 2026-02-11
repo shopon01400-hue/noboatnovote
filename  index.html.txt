@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Boat No Vote Campaign</title>
+
+<!-- Facebook Share Preview -->
+<meta property="og:title" content="No Boat No Vote Campaign">
+<meta property="og:description" content="নিজের ছবি দিয়ে পোস্টার বানান">
+<meta property="og:type" content="website">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family:'Montserrat', sans-serif;
+    background:#111;
+    text-align:center;
+    color:white;
+}
+
+h2{
+    margin-top:20px;
+    font-weight:900;
+}
+
+.controls{
+    margin:15px;
+}
+
+input, textarea{
+    padding:10px;
+    margin:6px;
+    width:260px;
+    max-width:90%;
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    font-weight:bold;
+    border:none;
+    cursor:pointer;
+    border-radius:8px;
+    background:#d60000;
+    color:white;
+}
+
+button:hover{
+    opacity:0.85;
+}
+
+/* 1080x1080 Facebook Size */
+#preview{
+    width:90%;
+    max-width:500px;
+    aspect-ratio:1/1;
+    margin:20px auto;
+    position:relative;
+    overflow:hidden;
+    background:#000;
+}
+
+#userImage{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* Overlay */
+.overlay{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+}
+
+/* Left Flag Bar */
+.left-bar{
+    width:14%;
+    background:linear-gradient(#d60000 50%, #008000 50%);
+}
+
+/* Text Section */
+.text-section{
+    flex:1;
+    background:#d60000;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-left:5%;
+}
+
+.big{
+    font-size:clamp(45px, 9vw, 90px);
+    font-weight:900;
+    line-height:0.8;
+    color:white;
+}
+
+.mid{
+    font-size:clamp(30px, 6vw, 60px);
+    font-weight:900;
+    color:#00ff00;
+}
+
+.vote{
+    font-size:clamp(35px, 7vw, 75px);
+    font-weight:900;
+    color:white;
+}
+
+.bangla-box{
+    background:white;
+    color:#d60000;
+    font-weight:bold;
+    font-size:clamp(14px, 3vw, 22px);
+    padding:10px;
+    margin-top:15px;
+    width:85%;
+}
+</style>
+</head>
+
+<body>
+
+<h2>নিজের ছবি দিয়ে ক্যাম্পেইন পোস্টার বানান</h2>
+
+<div class="controls">
+    <input type="file" id="imageInput" accept="image/*"><br>
+
+    <textarea id="banglaText" rows="2">কিসের হ্যাঁ, কিসের না!
+ভোট দিতে যামু না</textarea><br>
+
+    <button onclick="downloadImage()">ডাউনলোড করুন</button>
+</div>
+
+<div id="preview">
+    <img id="userImage">
+
+    <div class="overlay">
+        <div class="left-bar"></div>
+
+        <div class="text-section">
+            <div class="big">NO</div>
+            <div class="mid">BOAT</div>
+            <div class="big">NO</div>
+            <div class="vote">VOTE</div>
+
+            <div class="bangla-box" id="banglaPreview">
+                কিসের হ্যাঁ, কিসের না!<br>
+                ভোট দিতে যামু না
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const imageInput = document.getElementById('imageInput');
+const userImage = document.getElementById('userImage');
+
+imageInput.addEventListener('change', function(){
+    const reader = new FileReader();
+    reader.onload = function(e){
+        userImage.src = e.target.result;
+    }
+    reader.readAsDataURL(this.files[0]);
+});
+
+document.getElementById("banglaText").oninput = e => {
+    banglaPreview.innerHTML = e.target.value.replace(/\n/g,"<br>");
+};
+
+function downloadImage(){
+    html2canvas(document.getElementById("preview"), {scale:4}).then(canvas=>{
+        const link = document.createElement("a");
+        link.download = "NoBoatNoVote_Facebook.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+}
+</script>
+
+</body>
+</html>
